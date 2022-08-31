@@ -61,14 +61,16 @@ Once we get all links, we will implement [Scrapy framework](https://scrapy.org/)
 Airflow as orchestrator would scale well should we add more complexity to our pipeline.
 The project can evolve to include more crawlers to different websites, making significant tranformations on the collected data, training ML models... Airflow is capable of orchestrating all of that.
 
-Our [DAG](https://airflow.apache.org/docs/apache-airflow/1.10.12/concepts.html#dags) looks like this:
+Check `bbc_news_dag.py` in the `dags` folder for the code.
+
+Our worflow  [DAG](https://airflow.apache.org/docs/apache-airflow/1.10.12/concepts.html#dags) is the following:
 
 ![scraper_structure.png](https://github.com/ElfatihZiad/bbc-news/blob/main/images/dag.png)
 
 - the fist task `get_docs_count` get number of the documents stored in the database and pass it as an `XCOM` arguments to the third task, this tremendously speed up the process by making our crawl visit only the collected urls from the second task.
 If this is not configured the crawler will make requests to all the links in the url database including those already visited from previous runs.
 
-- second task is responsible for parse the sitemap and get articles URLs 
+- second task `get_urls` is responsible for parsing the sitemaps and get articles URLs.
 
 - Third task `crawl` is were the scraping of articles occurs, data obtained is saved to a mongodb collection.
 
