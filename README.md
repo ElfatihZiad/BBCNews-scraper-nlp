@@ -33,7 +33,7 @@ Once we get all links, we will implement [Scrapy framework](https://scrapy.org/)
 
 ## Breakdown of our Scraper
 
-[scraper_structure.png](images/scraper_structure.png)
+[scraper_structure.png](https://github.com/ElfatihZiad/bbc-news/blob/main/images/scraper_structure.png)
 
 - The main component of our scraper is `ArticleSpider.py` inside the `spiders` folder. It's where we specified links to follow which are pulled from our URLs collection on mongodb, and what items to get from each page.
 
