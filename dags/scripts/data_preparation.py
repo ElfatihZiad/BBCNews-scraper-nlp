@@ -87,16 +87,12 @@ def process(**kwarg):
 
     articles = articles.dropna()
     articles["n_words"] = articles["text"].apply(lambda text: len(text.split(" ")))
-    articles = articles[articles["n_words"] >  10]
+    articles = articles[articles["n_words"] >  50]
     articles["article_clean"] = articles["text"].apply(clean)
     lemmatizer = nltk.stem.WordNetLemmatizer()
     articles["article_clean"] = articles["article_clean"].apply(lambda x: lemmatize(x, lemmatizer)) 
     articles["n_words_clean"] = articles["article_clean"].apply(lambda x: len(x.split(" ")))
-    articles['menu'] = articles['menu_submenu'].str.split("-").str[0]
-    articles['submenu'] = articles['menu_submenu'].str.split("-").str[1:]
-    articles['submenu'] = articles['submenu'].map(lambda s: '-'.join(s))
-    articles.drop(columns=['url', '_id'], inplace=True)
-    articles = articles[['date','link','title','subtitle','authors','text','n_words','article_clean','n_words_clean','menu_submenu', 'menu', 'submenu','topic_name','topic_url','images']]
+    articles.drop(columns=['images', 'topic_name', 'topic_url', 'link', 'authors', '_id'], inplace=True)
     articles['date'] = pd.to_datetime(articles['date'])
     articles.reset_index(level=0, inplace=True)
     articles.drop(columns=['index'], inplace=True)
