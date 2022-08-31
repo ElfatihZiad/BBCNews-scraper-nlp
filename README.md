@@ -98,8 +98,7 @@ From every article, we remove:
   - The english stop-words
   - The words that are not an adjective, a noun, or an adverb.
 
-Then we use lemmatization to turn every word to its base or dictionary form.
-Output data is saved in a MongoDB collection `articles_processed`
+Then we use lemmatization to turn every word to its base or dictionary form. Output data is saved in a MongoDB collection `articles_processed`
 
 ## Topic Modeling
 
