@@ -61,7 +61,7 @@ Then we branch into two seperate tasks, each one performs topic modeling with di
 ## Database 
 
 For every task performed we save the output in a mongo collection
-[mongo_collections.png](https://github.com/ElfatihZiad/bbc-news/blob/main/images/mongo.png)
+![mongo_collections.png](https://github.com/ElfatihZiad/bbc-news/blob/main/images/mongo.png)
 
 ## Dockerization
 
@@ -146,7 +146,7 @@ we then map each article for its dominant topic.
 - The folowing image show the LDA plot where 32 topics are clustered. On the left, the clusters are shown which their size indicates the marginal topic distribution. On the right, the most important words of a topic are shown with their frequency measure within that topic (red bars) versus their overall frequency in the entire corpus (blue bars).
 
 We can clearly see the dominant theme in this topic is asylum & immigration
-[lda_plot_topic_asylum](https://github.com/ElfatihZiad/bbc-news/blob/main/images/lda_plot_topic_asylum.png)
+![lda_plot_topic_asylum](https://github.com/ElfatihZiad/bbc-news/blob/main/images/lda_plot_topic_asylum.png)
 
 
 ## Sentiment Analysis
