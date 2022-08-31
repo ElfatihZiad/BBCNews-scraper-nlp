@@ -45,18 +45,23 @@ Once we get all links, we will implement [Scrapy framework](https://scrapy.org/)
 
 ## Scheduler
 
-Although a cron job or Scrapy built-in scheduler could do the job, Airflow would scale well should we add more complexity to our pipeline.
-The project can evolve to include more crawlers to different websites, making significant tranformations on the collected data, and moving it to another convenient database. Airflow is capable of orchestrating all of that...
+Airflow as orchestrator would scale well should we add more complexity to our pipeline.
+The project can evolve to include more crawlers to different websites, making significant tranformations on the collected data, training ML models... Airflow is capable of orchestrating all of that.
 
-For the moment our [DAG](https://airflow.apache.org/docs/apache-airflow/1.10.12/concepts.html#dags) looks like this:
+Our [DAG](https://airflow.apache.org/docs/apache-airflow/1.10.12/concepts.html#dags) looks like this:
 
 ![scraper_structure.png](https://github.com/ElfatihZiad/bbc-news/blob/main/images/dag.png)
 
-the fist task `get_docs_count` get number of the documents stored in the database and pass it as an XCOM arguments to the third task, this tremendously speed up the process by making our crawl visit only the collected urls from the second task.
+- the fist task `get_docs_count` get number of the documents stored in the database and pass it as an `XCOM` arguments to the third task, this tremendously speed up the process by making our crawl visit only the collected urls from the second task.
 If this is not configured the crawler will make requests to all the links in the url database including those already visited from previous runs.
 
-the forth task `process` make necessary tranformations and cleaning on the raw scraped data.
-Then we branch into two seperate tasks, each one performs topic modeling with different parameters, more details on this later Then we make two seperate sentiment analysis.
+- second task is responsible for parse the sitemap and get articles URLs 
+
+- Third task `crawl` is were the scraping of articles occurs, data obtained is saved to a mongodb collection.
+
+- forth task `process` make necessary tranformations and cleaning on the raw scraped data.
+
+- Then we branch into two seperate tasks, each one performs topic modeling with different parameters, more details on this later Then we make two seperate sentiment analysis. (not yet implemented in dag file, see notebooks folder)
 
 ## Database 
 
@@ -80,8 +85,7 @@ mongo:
     volumes:
         - ./mongo:/data/db
 ```
-These extra lines add a mongodb service and maps the host port with the container port so we can access it from our local machine.
-and mount the mongo folder on our local file system to the docker containers. 
+These extra lines add a mongodb service and maps the host port with the container port so we can access it from our local machine, and mount the mongo folder on our local file system to the docker containers. 
 
 ## Data Processing
 
@@ -138,6 +142,22 @@ This is my result:
 [31, 'economy'],                
               ]
 ```
+
+Here is topics i come up with with `num_topics` paramter set to 12 for more general topics.
+```
+ [[0, 'local'],
+  [1, 'politics'], 
+  [2, 'boris johnson'], 
+  [3, 'environment'],
+  [4, 'crime'],
+  [5, 'russia-ukraine'],
+  [6, 'family'],
+  [7, 'royal family'],
+  [8, 'fire'],
+  [9, 'economy'],
+  [10, 'world'],
+  [11, 'entertainmeent']]
+```
 You can run your own analysis by checking out the LDA plot file `bbc-news-topics_32.html` and `bbc-news-topics_12.html`
 we then map each article for its dominant topic.
 
@@ -149,12 +169,31 @@ We can clearly see the dominant theme in this topic is asylum & immigration
 ![lda_plot_topic_asylum](https://github.com/ElfatihZiad/bbc-news/blob/main/images/lda_plot_topic_asylum.png)
 
 
+
 ## Sentiment Analysis
 
+we calculated Polarity and Subjectivity for each article, and map it for its respective topic.
 
-## Next steps 
+The figure below shows polarity and subjectivity trend over time.
+![polarity](https://github.com/ElfatihZiad/bbc-news/blob/main/images/polarity_trend.png)
+![subjectivity](https://github.com/ElfatihZiad/bbc-news/blob/main/images/subjectivity_trend.png)
 
-- inlude 
+The figure below shows the evaluation of the polarity per topic over time.
+
+As expected,  crime, politics, and russia-ukraine topics are more negative than the other topics, as there is rarely good news when it comes to crime. We also observe a surge in negativity in the environement topic as result of recent wildfires and heatwaves.
+
+![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiment_12.png)
+
+The figure below shows the sentiment trends of sub-topics (32 topics) and their evolution of sentiment over time.
+
+We can extract lot of information from this plot by checking the sentiment change and its date, and looking up relevant news from that exact date. 
+![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiment_32.png)
+
+
+## Next steps and improvements:
+[] ... 
+[] ...
+
 ## Setup
 
 Software required to run the project. Install:
