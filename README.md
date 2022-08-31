@@ -2,6 +2,19 @@
 
 A data pipeline to extract News artciles from [BBC News](https://www.bbc.com/news), storing it to MongoDB, performing NLP analysis (Topic modeling, sentiment analysis), and orchestrating the whole process with airflow.
 
+## Table of contents
+  - [Scraping approach](#scraping-approach)
+  - [Breakdown of our Scraper](#breakdown-of-our-scraper)
+  - [Scheduler](#scheduler)
+  - [Database](#database)
+  - [Dockerization](#dockerization)
+  - [Data Processing](#data-processing)
+  - [Topic Modeling](#topic-modeling)
+    - [some key takeawyas](#some-key-takeawyas)
+  - [Sentiment Analysis](#sentiment-analysis)
+  - [output data](#output-data)
+  - [Next steps and improvements:](#next-steps-and-improvements)
+  - [Setup](#setup)
 
 ## Scraping approach
 
