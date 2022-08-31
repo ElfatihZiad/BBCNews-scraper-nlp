@@ -98,7 +98,8 @@ From every article, we remove:
   - The english stop-words
   - The words that are not an adjective, a noun, or an adverb.
 
-Then we use lemmatization to turn every word to its base or dictionary form. Output data is saved in a MongoDB collection `articles_processed`
+Then we use lemmatization to turn every word to its base or dictionary form.
+Output data is saved in a MongoDB collection `articles_processed`
 
 ## Topic Modeling
 
@@ -183,7 +184,7 @@ The figure below shows polarity and subjectivity trend over time.
 
 The figure below shows the evaluation of the polarity per topic over time.
 
-As expected,  crime, politics, and russia-ukraine topics are more negative than the other topics, as there is rarely good news when it comes to crime. We also observe a surge in negativity in the environement topic as result of recent wildfires and heatwaves.
+As expected, crime, politics, and russia-ukraine topics are more negative than the other topics, as there is rarely good news when it comes to crime. We also observe a surge in negativity in the environement topic as result of recent wildfires and heatwaves.
 
 ![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiments_12.png)
 
@@ -193,9 +194,15 @@ We can extract lot of information from this plot by checking the sentiment chang
 ![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiments_32.png)
 
 
-## Next steps and improvements
+## output data
+In the data folder there are 4 csv files:
+- `scraped_articles.csv` : contains raw data that were scraped, resulted from the `crawl` task in the airflow dag
+- `articles_processed.csv` : cleaned and processed articles, resulted from the `process` task in the airflow dag.
+- `articles_lda_12.csv` : articles categorized into 12 topics.
+- `articles_sentiments.csv`: polarity and subjectivity score for every article.
 
-
+## Next steps and improvements:
+Feel free to make suggestions.
 ## Setup
 
 Software required to run the project. Install:
