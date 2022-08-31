@@ -98,8 +98,7 @@ From every article, we remove:
   - The english stop-words
   - The words that are not an adjective, a noun, or an adverb.
 
-Then we use lemmatization to turn every word to its base or dictionary form.
-Output data is saved in a MongoDB collection `articles_processed`
+Then we use lemmatization to turn every word to its base or dictionary form. Output data is saved in a MongoDB collection `articles_processed`
 
 ## Topic Modeling
 
@@ -194,9 +193,7 @@ We can extract lot of information from this plot by checking the sentiment chang
 ![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiments_32.png)
 
 
-## Next steps and improvements:
-[] ... 
-[] ...
+## Next steps and improvements
 
 
 ## Setup
