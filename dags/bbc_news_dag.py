@@ -9,9 +9,9 @@ from airflow.operators.python import PythonOperator
 from airflow.operators.dummy import DummyOperator
 
 
-from data_preparation import process
-from topic_modeling import model
-from sentiment_analysis import sentiment
+from scripts.data_preparation import process
+from scripts.topic_modeling import model
+from scripts.sentiment_analysis import sentiment
 
 
 BASE_URL = 'https://www.bbc.com/sitemaps/https-index-com-news.xml' # last 48 hours articles are listed here
@@ -118,7 +118,7 @@ t4 = PythonOperator(
 
 t5 = DummyOperator(
     task_id='topic_modeling_num_32',
-    #python_callable= process,
+    #python_callable= model,
     dag=dag,
 )
 
@@ -136,13 +136,9 @@ t7 = DummyOperator(
 
 t8 = DummyOperator(
     task_id='sentiment_analysis_v2',
+    #python_callable= sentiment(),
     dag=dag,
 )
-
-
-#    get_links >> crawl_task
-
-#     check_last_run >> get_links >> crawl_task >> analyse_task >> save_to_mongo
 
 
 t2.set_upstream(t1)
