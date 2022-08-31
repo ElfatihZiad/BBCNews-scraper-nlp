@@ -194,9 +194,7 @@ We can extract lot of information from this plot by checking the sentiment chang
 ![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiments_32.png)
 
 
-## Next steps and improvements:
-[] ... 
-[] ...
+## Next steps and improvements
 
 
 ## Setup
