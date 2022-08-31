@@ -50,13 +50,18 @@ The project can evolve to include more crawlers to different websites, making si
 
 For the moment our [DAG](https://airflow.apache.org/docs/apache-airflow/1.10.12/concepts.html#dags) looks like this:
 
-[scraper_structure.png](images/dag.png)
+![scraper_structure.png](https://github.com/ElfatihZiad/bbc-news/blob/main/images/dag.png)
 
-the fist task `get_docs_count` get number of the documents stored in the database and pass as an XCOM arguments to the third task, this tremendously speed up the process by making our crawl visit only the collected urls from the second task.
+the fist task `get_docs_count` get number of the documents stored in the database and pass it as an XCOM arguments to the third task, this tremendously speed up the process by making our crawl visit only the collected urls from the second task.
 If this is not configured the crawler will make requests to all the links in the url database including those already visited from previous runs.
 
+the forth task `process` make necessary tranformations and cleaning on the raw scraped data.
+Then we branch into two seperate tasks, each one performs topic modeling with different parameters, more details on this later Then we make two seperate sentiment analysis.
+
 ## Database 
-[mongo_collections.png](images/mongo_collections.png)
+
+For every task performed we save the output in a mongo collection
+[mongo_collections.png](https://github.com/ElfatihZiad/bbc-news/blob/main/images/mongo.png)
 
 ## Dockerization
 
@@ -133,16 +138,15 @@ This is my result:
 [31, 'economy'],                
               ]
 ```
-You can run your own analysis by checking out the LDA plot file `bbc-news-topics_32.html` 
-
+You can run your own analysis by checking out the LDA plot file `bbc-news-topics_32.html` and `bbc-news-topics_12.html`
 we then map each article for its dominant topic.
 
 - Topics returned were biased towards local uk news as a big portion of articles on the site are local althought they dont often make the home page.
-- Topics were also heavily influenced by recent event as they inlude only last three months.
+- Topics were also heavily influenced by recent events as they inlude only last three months: heatwave, price rise, russia-ukraine, recent incidents.
 - The folowing image show the LDA plot where 32 topics are clustered. On the left, the clusters are shown which their size indicates the marginal topic distribution. On the right, the most important words of a topic are shown with their frequency measure within that topic (red bars) versus their overall frequency in the entire corpus (blue bars).
 
 We can clearly see the dominant theme in this topic is asylum & immigration
-[lda_plot_topic_asylum](images/lda_plot_topic_asylum.png)
+[lda_plot_topic_asylum](https://github.com/ElfatihZiad/bbc-news/blob/main/images/lda_plot_topic_asylum.png)
 
 
 ## Sentiment Analysis
