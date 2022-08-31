@@ -61,9 +61,7 @@ Once we get all links, we will implement [Scrapy framework](https://scrapy.org/)
 Airflow as orchestrator would scale well should we add more complexity to our pipeline.
 The project can evolve to include more crawlers to different websites, making significant tranformations on the collected data, training ML models... Airflow is capable of orchestrating all of that.
 
-Check `bbc_news_dag.py` in the `dags` folder for the code.
-
-Our worflow  [DAG](https://airflow.apache.org/docs/apache-airflow/1.10.12/concepts.html#dags) is the following:
+If you check the dags folder, you'll find a file titled `bbc_news_dag.py`. This is our [DAG](https://airflow.apache.org/docs/apache-airflow/1.10.12/concepts.html#dags) which looks like the following in the Airflow's UI.
 
 ![scraper_structure.png](https://github.com/ElfatihZiad/bbc-news/blob/main/images/dag.png)
 
