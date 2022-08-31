@@ -59,7 +59,7 @@ If this is not configured the crawler will make requests to all the links in the
 
 - Third task `crawl` is were the scraping of articles occurs, data obtained is saved to a mongodb collection.
 
-- forth task `process` make necessary tranformations and cleaning on the raw scraped data.
+- Forth task `process` make necessary tranformations and cleaning on the raw scraped data.
 
 - Then we branch into two seperate tasks, each one performs topic modeling with different parameters, more details on this later Then we make two seperate sentiment analysis. (not yet implemented in dag file, see notebooks folder)
 
@@ -105,6 +105,8 @@ Output data is saved in a MongoDB collection `articles_processed`
 
 we take the processed articles and we train multiple LDA models and compute the coherence metric for a range of topic numbers. 
 Finally, we train the final LDA model with the optimal number of topics. a topics number of 32 gives a coherence score of 0.54 Which is decent.
+we then trained two models: one for topics number set to 32 for more detailed sub-topics/sub-categories, and another model of 12 topics for more general topics/categories.
+
 I then analysed topics through the relevance metric and words frequency/rarity to come up with a label for each topic.
 This is my result:
 ```
@@ -143,7 +145,14 @@ This is my result:
               ]
 ```
 
-Here is topics i come up with with `num_topics` paramter set to 12 for more general topics.
+The folowing image show the LDA plot where 32 topics are clustered. On the left, the clusters are shown which their size indicates the marginal topic distribution. On the right, the most important words of a topic are shown with their frequency measure within that topic (red bars) versus their overall frequency in the entire corpus (blue bars).
+
+by looking at the ldaplot we can clearly conclude that dominant theme in this topic is asylum & immigration.
+![lda_plot_topic_asylum](https://github.com/ElfatihZiad/bbc-news/blob/main/images/lda_plot_topic_asylum.png)
+
+You could run your own analysis by checking out these files: `bbc-news-topics_32.html` and `bbc-news-topics_12.html`
+
+Here is topics I come up with with `num_topics` paramter set to 12 for more general topics.
 ```
  [[0, 'local'],
   [1, 'politics'], 
@@ -158,16 +167,11 @@ Here is topics i come up with with `num_topics` paramter set to 12 for more gene
   [10, 'world'],
   [11, 'entertainmeent']]
 ```
-You can run your own analysis by checking out the LDA plot file `bbc-news-topics_32.html` and `bbc-news-topics_12.html`
-we then map each article for its dominant topic.
+
+### some key takeawyas
 
 - Topics returned were biased towards local uk news as a big portion of articles on the site are local althought they dont often make the home page.
 - Topics were also heavily influenced by recent events as they inlude only last three months: heatwave, price rise, russia-ukraine, recent incidents.
-- The folowing image show the LDA plot where 32 topics are clustered. On the left, the clusters are shown which their size indicates the marginal topic distribution. On the right, the most important words of a topic are shown with their frequency measure within that topic (red bars) versus their overall frequency in the entire corpus (blue bars).
-
-We can clearly see the dominant theme in this topic is asylum & immigration
-![lda_plot_topic_asylum](https://github.com/ElfatihZiad/bbc-news/blob/main/images/lda_plot_topic_asylum.png)
-
 
 
 ## Sentiment Analysis
@@ -182,17 +186,18 @@ The figure below shows the evaluation of the polarity per topic over time.
 
 As expected,  crime, politics, and russia-ukraine topics are more negative than the other topics, as there is rarely good news when it comes to crime. We also observe a surge in negativity in the environement topic as result of recent wildfires and heatwaves.
 
-![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiment_12.png)
+![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiments_12.png)
 
 The figure below shows the sentiment trends of sub-topics (32 topics) and their evolution of sentiment over time.
 
 We can extract lot of information from this plot by checking the sentiment change and its date, and looking up relevant news from that exact date. 
-![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiment_32.png)
+![sentiments_12](https://github.com/ElfatihZiad/bbc-news/blob/main/images/plot_sentiments_32.png)
 
 
 ## Next steps and improvements:
 [] ... 
 [] ...
+
 
 ## Setup
 
